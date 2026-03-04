@@ -1,0 +1,271 @@
+-- Tải thư viện UI (theo link bạn cung cấp)
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Norr10/ui/refs/heads/main/hihiui"))()
+
+local Window = Library:Window({
+    Name = "Kojo Hub",
+    SubName = "Flee The Facility",
+    Logo = "120959262762131" -- Logo Kojo Hub
+})
+
+local KeybindList = Library:KeybindList("Keybinds")
+
+-- Cập nhật Keybind List (nếu UI hỗ trợ)
+if Library.KeyList and Library.KeyList.Add then
+    local _OriginalAdd = Library.KeyList.Add
+    Library.KeyList.Add = function(self, Name, Key)
+        local Item = _OriginalAdd(self, Name, Key)
+        if Item and Item.Set then
+            local _OriginalSet = Item.Set
+            Item.Set = function(s, n, v)
+                if v == "[None]" or v == "None" or v == "[Unknown]" or v == "Unknown" or v == "" then
+                    if Item.Instance then Item.Instance.Visible = false end
+                    if Item.SetVisible then Item:SetVisible(false) end
+                else
+                    if Item.Instance then Item.Instance.Visible = true end
+                    if Item.SetVisible then Item:SetVisible(true) end
+                    _OriginalSet(s, n, v)
+                end
+            end
+        end
+        return Item
+    end
+end
+
+-- ========================================================
+-- CATEGORY: LEGIT
+-- ========================================================
+Window:Category("Legit")
+local LegitPage = Window:Page({Name = "Legit Aimbot", Icon = "108839695397679", Columns = 2})
+
+local LegitAimSection = LegitPage:Section({Name = "Aimbot", Description = "Assists & Triggerbot", Icon = "108839695397679", Side = 1})
+local LegitAimToggle = LegitAimSection:Toggle({Name = "Legit Aimbot", Flag = "BS_LegitAim", Default = false, Callback = function(v) print("Legit Aim:", v) end})
+LegitAimSection:Keybind({Name = "Aimbot Key", Flag = "LegitKey", Default = Enum.UserInputType.None, Callback = function() print("Aimbot Key Pressed") end})
+LegitAimSection:Slider({Name = "Smoothing", Flag = "LegitSmooth", Min = 1, Max = 30, Default = 10, Decimals = 1, Suffix = "", Callback = function(v) print("Smoothing:", v) end})
+LegitAimSection:Slider({Name = "Legit FOV", Flag = "LegitFov", Min = 10, Max = 400, Default = 100, Decimals = 1, Suffix = "px", Callback = function(v) print("Legit FOV:", v) end})
+LegitAimSection:Toggle({Name = "Draw Legit FOV", Flag = "BS_LegitDrawFov", Default = false, Callback = function(v) print("Draw FOV:", v) end})
+LegitAimSection:Toggle({Name = "Wall Check", Flag = "BS_LegitWallCheck", Default = false, Callback = function(v) print("Wall Check:", v) end})
+LegitAimSection:Toggle({Name = "Auto Wallbang", Flag = "BS_LegitAutoWallbang", Default = false, Callback = function(v) print("Auto Wallbang:", v) end})
+LegitAimSection:Dropdown({Name = "Aim Bone", Flag = "LegitBone", Default = {"Head"}, Items = {"Head", "Neck", "UpperTorso", "HumanoidRootPart"}, Multi = false, Callback = function(v) print("Aim Bone:", v) end})
+LegitAimSection:Toggle({Name = "Auto Fire (Triggerbot)", Flag = "BS_AutoFire", Default = false, Callback = function(v) print("Auto Fire:", v) end})
+LegitAimSection:Keybind({Name = "Triggerbot Key", Flag = "AutoFireKey", Default = Enum.UserInputType.None, Callback = function() print("Triggerbot Key Pressed") end})
+LegitAimSection:Toggle({Name = "Quick Scope", Flag = "BS_AutoScope", Default = false, Callback = function(v) print("Quick Scope:", v) end})
+LegitAimSection:Toggle({Name = "Legit Auto Scope (Triggerbot)", Flag = "BS_LegitAutoScope", Default = false, Callback = function(v) print("Legit Auto Scope:", v) end})
+LegitAimSection:Toggle({Name = "Legit Auto Stop", Flag = "BS_LegitAutoStop", Default = false, Callback = function(v) print("Legit Auto Stop:", v) end})
+LegitAimSection:Toggle({Name = "Multipoint", Flag = "BS_Multipoint", Default = false, Callback = function(v) print("Multipoint:", v) end})
+
+
+-- ========================================================
+-- CATEGORY: RAGE
+-- ========================================================
+Window:Category("Rage")
+local RagePage = Window:Page({Name = "Rage Aimbot", Icon = "108839695397679", Columns = 2})
+
+local RageAimSection = RagePage:Section({Name = "Aimbot", Description = "Silent Aim & Exploits", Icon = "108839695397679", Side = 1})
+local SilentAimToggle = RageAimSection:Toggle({Name = "Silent Aim", Flag = "BS_SilentAim", Default = false, Callback = function(v) print("Silent Aim:", v) end})
+RageAimSection:Keybind({Name = "Silent Aim Key", Flag = "SilentAimKey", Default = Enum.UserInputType.None, Callback = function() print("Silent Aim Key Pressed") end})
+RageAimSection:Dropdown({Name = "Target Mode", Flag = "TargetMode", Default = {"Near Crosshair"}, Items = {"Highest Damage", "Near Crosshair"}, Multi = false, Callback = function(v) print("Target Mode:", v) end})
+RageAimSection:Dropdown({Name = "Hitboxes", Flag = "AimHitboxes", Default = {"Head"}, Items = {"Head", "UpperTorso", "LowerTorso", "HumanoidRootPart", "RightUpperArm", "LeftUpperArm", "RightUpperLeg", "LeftUpperLeg"}, Multi = true, Callback = function(v) print("Hitboxes:", v) end})
+RageAimSection:Toggle({Name = "Wall Bang", Flag = "BS_WallBang", Default = false, Callback = function(v) print("Wall Bang:", v) end})
+RageAimSection:Keybind({Name = "Wall Bang Key", Flag = "WallBangKey", Default = Enum.UserInputType.None, Callback = function() print("Wall Bang Key Pressed") end})
+RageAimSection:Toggle({Name = "Wallbang Indicator", Flag = "BS_ShowWallbangIndicator", Default = false, Callback = function(v) print("WB Indicator:", v) end})
+RageAimSection:Toggle({Name = "Auto Fire", Flag = "BS_AutoFireRage", Default = false, Callback = function(v) print("Auto Fire Rage:", v) end})
+RageAimSection:Slider({Name = "Silent Aim FOV", Flag = "FovRadiusRage", Min = 10, Max = 800, Default = 100, Decimals = 1, Suffix = "px", Callback = function(v) print("Silent FOV:", v) end})
+RageAimSection:Toggle({Name = "Show FOV Circle", Flag = "BS_ShowFovRage", Default = false, Callback = function(v) print("Show FOV Rage:", v) end})
+
+RageAimSection:Slider({Name = "Min Damage", Flag = "MinDamage_V5", Min = 0, Max = 120, Default = 10, Decimals = 1, Suffix = "hp", Callback = function(v) print("Min Damage:", v) end})
+RageAimSection:Slider({Name = "Override Damage", Flag = "MinDamageOverride_V5", Min = 0, Max = 120, Default = 50, Decimals = 1, Suffix = "hp", Callback = function(v) print("Override Damage:", v) end})
+RageAimSection:Keybind({Name = "Override Key", Flag = "MinDamageOverrideKey", Default = Enum.UserInputType.None, Callback = function() print("Override Key Pressed") end})
+RageAimSection:Slider({Name = "Min Hit Chance", Flag = "MinHitChance_V2", Min = 0, Max = 100, Default = 50, Decimals = 1, Suffix = "%", Callback = function(v) print("Hit Chance:", v) end})
+
+local AntiAimSection = RagePage:Section({Name = "Anti-Aim", Description = "Spinbot & Angles", Icon = "108839695397679", Side = 2})
+local AntiAimToggle = AntiAimSection:Toggle({Name = "Anti-Aim", Flag = "BS_AntiAim", Default = false, Callback = function(v) print("Anti Aim:", v) end})
+AntiAimSection:Keybind({Name = "Anti-Aim Key", Flag = "AntiAimKey", Default = Enum.UserInputType.None, Callback = function() print("Anti Aim Key Pressed") end})
+AntiAimSection:Dropdown({Name = "Pitch Mode", Flag = "AntiAimPitchMode", Default = {"Down"}, Items = {"Down", "Up"}, Multi = false, Callback = function(v) print("Pitch Mode:", v) end})
+AntiAimSection:Toggle({Name = "Backwards AA", Flag = "AntiAimBackwards", Default = false, Callback = function(v) print("Backwards AA:", v) end})
+AntiAimSection:Toggle({Name = "Follow Backwards AA", Flag = "FollowBackwardsAA", Default = false, Callback = function(v) print("Follow Backwards:", v) end})
+local AllDirectionsToggle = AntiAimSection:Toggle({Name = "360 Mode (Rage)", Flag = "BS_AllDirections", Default = false, Callback = function(v) print("360 Mode:", v) end})
+AntiAimSection:Keybind({Name = "360 Mode Key", Flag = "Mode360Key", Default = Enum.UserInputType.None, Callback = function() print("360 Key Pressed") end})
+
+local BacktrackSection = RagePage:Section({Name = "Backtrack", Description = "History Manipulation", Icon = "108839695397679", Side = 2})
+BacktrackSection:Dropdown({Name = "History Amount", Flag = "HistoryPreset", Default = {"Low"}, Items = {"Low", "Medium", "High", "Maximum"}, Multi = false, Callback = function(v) print("History Preset:", v) end})
+BacktrackSection:Toggle({Name = "History Visuals", Flag = "BS_BacktrackChams", Default = false, Callback = function(v) print("History Visuals:", v) end}):Settings(250):Label("Color"):Colorpicker({Name = "Color", Flag = "BacktrackChamsColor", Default = Color3.fromRGB(80, 0, 255), Callback = function(v) print("BT Chams Color") end})
+BacktrackSection:Dropdown({Name = "Visual Style", Flag = "BacktrackChamsStyle", Default = {"Glow"}, Items = {"Shaded", "Solid", "Glow", "Glow Outline", "Hyper Glow", "Iridescent", "Water Flow"}, Multi = false, Callback = function(v) print("Visual Style:", v) end})
+BacktrackSection:Toggle({Name = "Self Backtrack", Flag = "SelfBacktrack", Default = false, Callback = function(v) print("Self Backtrack:", v) end})
+
+
+-- ========================================================
+-- CATEGORY: VISUALS
+-- ========================================================
+Window:Category("Visuals")
+local VisualsPage = Window:Page({Name = "Visuals & ESP", Icon = "100050851789190", Columns = 2})
+
+local EspSection = VisualsPage:Section({Name = "ESP", Description = "Wallhack Settings", Icon = "100050851789190", Side = 1})
+local EspToggle = EspSection:Toggle({Name = "Enable ESP", Flag = "BS_Esp", Default = false, Callback = function(Value) print("ESP:", Value) end})
+EspSection:Keybind({Name = "ESP Key", Flag = "EspKey", Default = Enum.UserInputType.None, Callback = function(Value) print("ESP Key Pressed") end})
+EspSection:Toggle({Name = "Boxes", Flag = "BS_EspBoxes", Default = false, Callback = function(v) print("Boxes:", v) end}):Settings(250):Label("Box Color"):Colorpicker({Name = "Color", Flag = "BoxColor", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) print("Box Color") end})
+EspSection:Toggle({Name = "Names", Flag = "BS_EspNames", Default = false, Callback = function(v) print("Names:", v) end}):Settings(250):Label("Name Color"):Colorpicker({Name = "Color", Flag = "NameColor", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) print("Name Color") end})
+EspSection:Toggle({Name = "Health Bar", Flag = "BS_EspHealthBar", Default = false, Callback = function(v) print("Health Bar:", v) end}):Settings(250):Label("Health Bar Color"):Colorpicker({Name = "Color", Flag = "HealthBarColor", Default = Color3.fromRGB(0, 255, 0), Callback = function(v) print("Health Bar Color") end})
+EspSection:Toggle({Name = "Distance", Flag = "BS_EspDistance", Default = false, Callback = function(v) print("Distance:", v) end}):Settings(250):Label("Distance Color"):Colorpicker({Name = "Color", Flag = "DistColor", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) print("Dist Color") end})
+EspSection:Toggle({Name = "Head Dot", Flag = "BS_EspHeadDot", Default = false, Callback = function(v) print("Head Dot:", v) end}):Settings(250):Label("Head Dot Color"):Colorpicker({Name = "Color", Flag = "HeadDotColor", Default = Color3.fromRGB(255, 0, 0), Callback = function(v) print("Head Dot Color") end})
+EspSection:Toggle({Name = "Weapon", Flag = "BS_EspWeapon", Default = false, Callback = function(v) print("Weapon ESP:", v) end}):Settings(250):Label("Weapon Color"):Colorpicker({Name = "Color", Flag = "WeaponColor", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) print("Weapon Color") end})
+EspSection:Toggle({Name = "Inventory", Flag = "BS_EspInventory", Default = false, Callback = function(v) print("Inventory ESP:", v) end})
+
+local ChamsSection = VisualsPage:Section({Name = "Chams & Effects & Team", Description = "Advanced Visuals", Icon = "100050851789190", Side = 1})
+ChamsSection:Toggle({Name = "Offscreen Arrows", Flag = "BS_EspOffscreenArrows", Default = false, Callback = function(v) print("Offscreen Arrows:", v) end})
+ChamsSection:Toggle({Name = "Chams (Bypass)", Flag = "BS_EspChams", Default = false, Callback = function(v) print("Chams:", v) end}):Settings(250):Label("AlwaysOnTop"):Colorpicker({Name = "Hidden Color", Flag = "ChamHiddenColor", Default = Color3.fromRGB(255, 0, 0), Callback = function(v) print("Cham Color") end}) 
+ChamsSection:Toggle({Name = "Soul Particles", Flag = "BS_EspSoulParticles", Default = false, Callback = function(v) print("Soul Particles:", v) end})
+ChamsSection:Toggle({Name = "On Shot Effect", Flag = "BS_EspOnShotChams", Default = false, Callback = function(v) print("On Shot Chams:", v) end})
+ChamsSection:Toggle({Name = "Bullet Impacts", Flag = "BS_ShowImpacts", Default = false, Callback = function(v) print("Show Impacts:", v) end})
+ChamsSection:Toggle({Name = "China Hat", Flag = "BS_EspChinaHat", Default = false, Callback = function(v) print("China Hat:", v) end})
+ChamsSection:Toggle({Name = "Self China Hat", Flag = "BS_EspSelfChinaHat", Default = false, Callback = function(v) print("Self China Hat:", v) end})
+ChamsSection:Toggle({Name = "Rainbow Hat", Flag = "BS_EspChinaHatRainbow", Default = false, Callback = function(v) print("Rainbow Hat:", v) end})
+
+local TeamSection = VisualsPage:Section({Name = "Team Settings", Description = "Colors & Management", Icon = "100050851789190", Side = 2})
+TeamSection:Dropdown({Name = "Team Mode", Flag = "EspTeamMode", Default = {"Enemies"}, Items = {"Enemies", "Teammates", "All"}, Multi = false, Callback = function(v) print("Team Mode:", v) end})
+TeamSection:Toggle({Name = "Team Check", Flag = "BS_UseTeamCheck", Default = false, Callback = function(v) print("Team Check:", v) end})
+TeamSection:Label("Colors"):Colorpicker({Name = "Enemy Color", Flag = "EnemyColor", Default = Color3.fromRGB(150, 200, 60), Callback = function(v) print("Enemy Color") end})
+TeamSection:Label("Teammate Color"):Colorpicker({Name = "Teammate Color", Flag = "TeammateColor", Default = Color3.fromRGB(60, 150, 200), Callback = function(v) print("Teammate Color") end})
+
+
+-- ========================================================
+-- CATEGORY: WEAPON & WORLD
+-- ========================================================
+local WeaponAndWorldPage = Window:Page({Name = "World & Combat", Icon = "100050851789190", Columns = 2})
+
+local WorldSection = WeaponAndWorldPage:Section({Name = "World", Description = "Skybox & Lighting", Icon = "123944728972740", Side = 1})
+WorldSection:Toggle({Name = "Enable Skybox", Flag = "BS_WorldSkyboxEnabled", Default = false, Callback = function(v) print("Skybox:", v) end})
+WorldSection:Dropdown({Name = "Skybox Preset", Flag = "WorldSkybox", Default = {"Standard"}, Items = {"Standard", "Minecraft", "Spongebob", "Deep Space", "Clouded Sky", "Retro", "City", "Purple Nebula"}, Multi = false, Callback = function(v) print("Skybox Preset:", v) end})
+WorldSection:Dropdown({Name = "Weather", Flag = "WeatherType", Default = {"None"}, Items = {"None", "Rain", "Snow", "Hell Fire"}, Multi = false, Callback = function(v) print("Weather:", v) end})
+WorldSection:Toggle({Name = "Enable Time", Flag = "BS_WorldTimeEnabled", Default = false, Callback = function(v) print("Time Enabled:", v) end})
+WorldSection:Slider({Name = "Clock Time", Flag = "WorldClockTime", Min = 0, Max = 24, Default = 12, Decimals = 1, Suffix = "h", Callback = function(v) print("Clock Time:", v) end})
+WorldSection:Toggle({Name = "Enable Brightness", Flag = "BS_WorldBrightEnabled", Default = false, Callback = function(v) print("Bright Enabled:", v) end})
+WorldSection:Slider({Name = "Brightness", Flag = "WorldBrightness", Min = 0, Max = 10, Default = 2, Decimals = 1, Suffix = "x", Callback = function(v) print("Brightness:", v) end})
+WorldSection:Toggle({Name = "Enable Colors", Flag = "BS_WorldColorEnabled", Default = false, Callback = function(v) print("Color Enabled:", v) end})
+WorldSection:Label("Ambient Color"):Colorpicker({Name = "Ambient", Flag = "WorldAmbient", Default = Color3.fromRGB(127, 127, 127), Callback = function(v) print("Ambient Color") end})
+WorldSection:Label("Outdoor Color"):Colorpicker({Name = "Outdoor", Flag = "WorldOutdoorAmbient", Default = Color3.fromRGB(127, 127, 127), Callback = function(v) print("Outdoor Color") end})
+
+local CombatVisualsSection = WeaponAndWorldPage:Section({Name = "Combat Visuals", Description = "Impacts & Tracers", Icon = "103180437044643", Side = 2})
+CombatVisualsSection:Toggle({Name = "Bullet Tracers", Flag = "BS_ShowTracers", Default = false, Callback = function(v) print("Bullet Tracers:", v) end}):Settings(250):Label("Tracer Color"):Colorpicker({Name = "Color", Flag = "BulletTracerColor", Default = Color3.fromRGB(0, 100, 255), Callback = function(v) print("Tracer Color") end})
+CombatVisualsSection:Slider({Name = "Tracer Time", Flag = "TracerDuration", Min = 1, Max = 10, Default = 2, Decimals = 1, Suffix = "s", Callback = function(v) print("Tracer Time:", v) end})
+CombatVisualsSection:Toggle({Name = "Hit Marker", Flag = "BS_ShowHitmark", Default = false, Callback = function(v) print("Hit Marker:", v) end}):Settings(250):Label("Color"):Colorpicker({Name = "Hit Color", Flag = "HitmarkColor", Default = Color3.fromRGB(255, 255, 255), Callback = function(v) print("Hitmark Color") end})
+CombatVisualsSection:Slider({Name = "Hit Marker Time", Flag = "HitmarkDuration", Min = 0.1, Max = 5, Default = 0.5, Decimals = 1, Suffix = "s", Callback = function(v) print("Hitmark Time:", v) end})
+CombatVisualsSection:Toggle({Name = "Hit Sound", Flag = "BS_PlayHitSound", Default = false, Callback = function(v) print("Hit Sound:", v) end})
+CombatVisualsSection:Toggle({Name = "Hit Logs (Console)", Flag = "BS_ShowHitLogs", Default = false, Callback = function(v) print("Hit Logs:", v) end})
+CombatVisualsSection:Toggle({Name = "Show Penetration", Flag = "BS_ShowPenetration", Default = false, Callback = function(v) print("Show Penetration:", v) end})
+CombatVisualsSection:Toggle({Name = "Show Real Spread", Flag = "BS_ShowSpread", Default = false, Callback = function(v) print("Show Spread:", v) end}):Settings(250):Label("Spread Color"):Colorpicker({Name = "Color", Flag = "SpreadColor", Default = Color3.fromRGB(0, 255, 0), Callback = function(v) print("Spread Color") end})
+
+local EffectsSection = WeaponAndWorldPage:Section({Name = "Effects", Description = "Kill & Particles", Icon = "100050851789190", Side = 1})
+EffectsSection:Toggle({Name = "Kill Effects", Flag = "BS_KillEffect", Default = false, Callback = function(v) print("Kill Effects:", v) end})
+EffectsSection:Dropdown({Name = "Effect Mode", Flag = "KillEffectMode", Default = {"Rocket"}, Items = {"Rocket", "Lightning", "Nuke", "Black Hole", "Disintegrate", "Ascension", "Digital"}, Multi = false, Callback = function(v) print("Kill Effect Mode:", v) end})
+EffectsSection:Slider({Name = "Duration", Flag = "KillEffectDuration", Min = 1, Max = 10, Default = 3, Decimals = 1, Suffix = "s", Callback = function(v) print("Effect Duration:", v) end})
+EffectsSection:Toggle({Name = "Custom Particles", Flag = "BS_CustomParticles", Default = false, Callback = function(v) print("Custom Particles:", v) end})
+EffectsSection:Label("Particle Color"):Colorpicker({Name = "Color", Flag = "ParticleColor", Default = Color3.fromRGB(170, 0, 255), Callback = function(v) print("Particle Color") end})
+
+local TacticalSection = WeaponAndWorldPage:Section({Name = "Tactical", Description = "Grenades & C4", Icon = "100050851789190", Side = 2})
+TacticalSection:Toggle({Name = "Molotov Zones", Flag = "BS_MolotovZoneESP", Default = false, Callback = function(v) print("Molotov Zones:", v) end}):Settings(250):Label("Zone Color"):Colorpicker({Name = "Color", Flag = "GrenadeZoneColor", Default = Color3.fromRGB(255, 0, 0), Callback = function(v) print("Zone Color") end})
+TacticalSection:Toggle({Name = "Smoke Zones", Flag = "BS_SmokeZoneESP", Default = false, Callback = function(v) print("Smoke Zones:", v) end})
+TacticalSection:Toggle({Name = "Grenade Warning", Flag = "BS_GrenadeWarning", Default = false, Callback = function(v) print("Grenade Warning:", v) end})
+TacticalSection:Toggle({Name = "Grenade Shrapnel", Flag = "BS_GrenadeTracers", Default = false, Callback = function(v) print("Grenade Shrapnel:", v) end})
+TacticalSection:Toggle({Name = "Grenade ESP", Flag = "BS_GrenadeESP", Default = false, Callback = function(v) print("Grenade ESP:", v) end})
+
+
+-- ========================================================
+-- CATEGORY: MISC
+-- ========================================================
+Window:Category("Misc")
+local MiscPage = Window:Page({Name = "Misc", Icon = "134236649319095", Columns = 2})
+
+local MovementSection = MiscPage:Section({Name = "Movement", Description = "Bhop & Peeking", Icon = "103180437044643", Side = 1})
+local BhopToggle = MovementSection:Toggle({Name = "Bunny Hop", Flag = "BS_Bhop", Default = false, Callback = function(v) print("Bhop:", v) end})
+MovementSection:Keybind({Name = "Bhop Key", Flag = "BhopKey", Default = Enum.UserInputType.None, Callback = function() print("Bhop Key Pressed") end})
+MovementSection:Slider({Name = "Bhop Speed", Flag = "BhopSpeed", Min = 1, Max = 30, Default = 18, Decimals = 1, Suffix = "spd", Callback = function(v) print("Bhop Speed:", v) end})
+MovementSection:Toggle({Name = "No Fall Damage", Flag = "BS_NoFallDamage", Default = false, Callback = function(v) print("No Fall Damage:", v) end})
+local QuickStopToggle = MovementSection:Toggle({Name = "Quick Stop", Flag = "BS_AutoStop", Default = false, Callback = function(v) print("Quick Stop:", v) end})
+MovementSection:Keybind({Name = "Quick Stop Key", Flag = "AutoStopKey", Default = Enum.UserInputType.None, Callback = function() print("Quick Stop Key Pressed") end})
+MovementSection:Dropdown({Name = "Stop Options", Flag = "QuickStopOptions", Default = {"Early"}, Items = {"Early", "In Air", "Duck", "Move Between Shots", "On Land"}, Multi = true, Callback = function(v) print("Stop Options:", v) end})
+local AutoPeekToggle = MovementSection:Toggle({Name = "Auto Peek", Flag = "BS_AutoPeek", Default = false, Callback = function(v) print("Auto Peek:", v) end})
+MovementSection:Keybind({Name = "Auto Peek Key", Flag = "AutoPeekKey", Default = Enum.UserInputType.None, Callback = function() print("Auto Peek Key Pressed") end})
+local FakeDuckToggle = MovementSection:Toggle({Name = "Fake Duck", Flag = "BS_FakeDuck", Default = false, Callback = function(v) print("Fake Duck:", v) end})
+MovementSection:Keybind({Name = "Fake Duck Key", Flag = "FakeDuckKey", Default = Enum.UserInputType.None, Callback = function() print("Fake Duck Key Pressed") end})
+
+local CameraSection = MiscPage:Section({Name = "Camera & View", Description = "View Options", Icon = "103180437044643", Side = 2})
+local ThirdPersonToggle = CameraSection:Toggle({Name = "Third Person", Flag = "ThirdPerson", Default = false, Callback = function(v) print("Third Person:", v) end})
+CameraSection:Keybind({Name = "Third Person Key", Flag = "ThirdPersonKey", Default = Enum.UserInputType.None, Callback = function() print("Third Person Key Pressed") end})
+CameraSection:Slider({Name = "Distance", Flag = "ThirdPersonDist", Min = 5, Max = 50, Default = 10, Decimals = 1, Suffix = "studs", Callback = function(v) print("Third Person Dist:", v) end})
+local CustomFovToggle = CameraSection:Toggle({Name = "Custom FOV (Base)", Flag = "BS_EnableFov", Default = false, Callback = function(v) print("Custom FOV:", v) end})
+CameraSection:Keybind({Name = "Custom FOV Key", Flag = "CustomFovKey", Default = Enum.UserInputType.None, Callback = function() print("Custom FOV Key Pressed") end})
+CameraSection:Slider({Name = "FOV Amount", Flag = "CustomFovValue", Min = 30, Max = 150, Default = 90, Decimals = 0, Suffix = "°", Callback = function(v) print("FOV Amount:", v) end})
+CameraSection:Toggle({Name = "Custom Scope FOV", Flag = "BS_CustomScopeFov", Default = false, Callback = function(v) print("Custom Scope FOV:", v) end})
+CameraSection:Slider({Name = "Scope FOV", Flag = "ScopeFovValue_V2", Min = 10, Max = 100, Default = 40, Decimals = 1, Suffix = "deg", Callback = function(v) print("Scope FOV Value:", v) end})
+CameraSection:Toggle({Name = "Remove Scope", Flag = "BS_RemoveScope", Default = false, Callback = function(v) print("Remove Scope:", v) end})
+CameraSection:Toggle({Name = "Show FOV Circle", Flag = "BS_ShowFovMisc", Default = false, Callback = function(v) print("Show FOV Misc:", v) end})
+CameraSection:Slider({Name = "FOV Radius", Flag = "FovRadiusMisc", Min = 10, Max = 800, Default = 100, Decimals = 1, Suffix = "px", Callback = function(v) print("FOV Radius Misc:", v) end})
+
+local RemovalsSection = MiscPage:Section({Name = "Removals", Description = "No Flash/Smoke", Icon = "123944728972740", Side = 2})
+local NoFlashToggle = RemovalsSection:Toggle({Name = "No Flash", Flag = "BS_NoFlash", Default = false, Callback = function(v) print("No Flash:", v) end})
+RemovalsSection:Keybind({Name = "No Flash Key", Flag = "NoFlashKey", Default = Enum.UserInputType.None, Callback = function() print("No Flash Key Pressed") end})
+local NoSmokeToggle = RemovalsSection:Toggle({Name = "No Smoke", Flag = "BS_NoSmoke", Default = false, Callback = function(v) print("No Smoke:", v) end})
+RemovalsSection:Keybind({Name = "No Smoke Key", Flag = "NoSmokeKey", Default = Enum.UserInputType.None, Callback = function() print("No Smoke Key Pressed") end})
+RemovalsSection:Toggle({Name = "Colored Smoke", Flag = "BS_ColoredSmoke", Default = false, Callback = function(v) print("Colored Smoke:", v) end}):Settings(250):Label("Smoke Color"):Colorpicker({Name = "Color", Flag = "SmokeColor", Default = Color3.fromRGB(255, 0, 0), Callback = function(v) print("Smoke Color") end})
+RemovalsSection:Toggle({Name = "No Recoil (Visual)", Flag = "BS_NoRecoilVisual", Default = true, Callback = function(v) print("No Recoil Visual:", v) end})
+RemovalsSection:Toggle({Name = "No Recoil (Real)", Flag = "BS_NoRecoilReal", Default = true, Callback = function(v) print("No Recoil Real:", v) end})
+RemovalsSection:Toggle({Name = "No Spread", Flag = "BS_NoSpread", Default = false, Callback = function(v) print("No Spread:", v) end})
+
+
+-- ========================================================
+-- CATEGORY: CONFIG
+-- ========================================================
+Window:Category("Config")
+local SettingsPage = Window:Page({Name = "Configuration", Icon = "108839695397679", Columns = 2})
+
+local ConfigSection = SettingsPage:Section({Name = "Config Manager", Description = "Save/Load Settings", Icon = "108839695397679", Side = 1})
+
+local ConfigDropdown = ConfigSection:Dropdown({
+    Name = "Select Config",
+    Flag = "ConfigSelect",
+    List = {"Legit", "Rage", "Default"},
+    Default = "Legit",
+    Callback = function(val) print("Selected Config:", val) end
+})
+
+ConfigSection:Textbox({
+    Name = "New Config Name",
+    Flag = "ConfigNameInput",
+    Default = "",
+    Placeholder = "Type name to save...",
+    Callback = function(text) print("New Config Name:", text) end
+})
+
+ConfigSection:Button({Name = "Refresh List", Callback = function() print("Refresh List") end})
+ConfigSection:Button({Name = "Save Config", Callback = function() print("Save Config") end})
+ConfigSection:Button({Name = "Load Config", Callback = function() print("Load Config") end})
+
+local UISettings = SettingsPage:Section({Name = "UI Settings", Description = "Keybinds & Theme", Icon = "103180437044643", Side = 2})
+UISettings:Keybind({
+    Name = "Menu Toggle",
+    Flag = "GuiToggleKey",
+    Default = Enum.KeyCode.RightControl,
+    Callback = function(Value)
+        local newState = not Window.IsOpen
+        Window:SetOpen(newState)
+        if _G.SyncPreviewVisibility then _G.SyncPreviewVisibility(newState) end
+    end
+})
+
+-- ========================================================
+-- INITIALIZATION
+-- ========================================================
+Window:Init()
+_G.LoadStage = 2
+
+if Library and Library.Notification then
+    Library:Notification({
+        Title = "Kojo Hub",
+        Description = "Loaded Successfully",
+        Duration = 5,
+        Icon = "73789337996373"
+    })
+end
+
+getgenv().Library = Library
+return Library
